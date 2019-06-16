@@ -473,14 +473,14 @@ Check and make sure that the direction you want locked (" +
 	//  string toCheck (checks if value is in inventory or if it can be found in the room descriptions)
 	
 	[SerializeField] private string cause;
-	[SerializeField] private string reaction;
+	[TextArea] [SerializeField] private string reaction;
 	public bool effectOtherRoom;
 	public bool checkConditional;
 	public EventConditionalType checkWhat;
 	public string toCheck;
 	public int[] roomCoords = new int[2];
 	public EventEffect effect;
-	public string[] effectOptions;
+	[TextArea] public string[] effectOptions;
 
 	public bool caused(string action) {
 	    return cause == action;
