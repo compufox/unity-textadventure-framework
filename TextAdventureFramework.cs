@@ -269,7 +269,7 @@ public class TextAdventureFramework : MonoBehaviour {
 			if (r.checkConditional) {
 			    switch (r.checkWhat) {
 				case TextEvent.EventConditionalType.INVENTORY:
-				    if (InInventory(r.toCheck))
+				    if (InInventory(r.checkFor))
 					UseHelper(r);
 				    else {
 					cur.addEvent(r);
@@ -278,7 +278,7 @@ public class TextAdventureFramework : MonoBehaviour {
 				    break;
 				case TextEvent.EventConditionalType.ROOM:
 				    if (Regex.IsMatch(cur.shortDescription + " " + cur.longDescription,
-						      r.toCheck))
+						      r.checkFor))
 					UseHelper(r);
 				    else {
 					cur.addEvent(r);
@@ -466,18 +466,13 @@ Check and make sure that the direction you want locked (" +
 	    INVENTORY,
 	    ROOM,
 	}
-
-	// TODO add conditionals into events.
-	//  bool checkConditional
-	//  enum ConditionalType { INVENTORY, ROOM }
-	//  string toCheck (checks if value is in inventory or if it can be found in the room descriptions)
 	
 	[SerializeField] private string cause;
 	[TextArea] [SerializeField] private string reaction;
 	public bool effectOtherRoom;
 	public bool checkConditional;
 	public EventConditionalType checkWhat;
-	public string toCheck;
+	public string checkFor;
 	public int[] roomCoords = new int[2];
 	public EventEffect effect;
 	[TextArea] public string[] effectOptions;
