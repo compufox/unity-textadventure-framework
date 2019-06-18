@@ -33,14 +33,14 @@ public class TextAdventureFramework : MonoBehaviour {
 
     public Text textArea;
     [TextArea] [SerializeField] private string start;
-    public int startingRoom = 0;
+    public int startingColumn = 0;
     public int startingRow = 0;
     
     public string[] actions;
     public string actionNotFoundMessage;
 
     [SerializeField]
-    private RoomRow[] rooms;
+    private RoomRow[] columns;
 
     private int x = 0, y = 0;
     private List<Item> backpack = new List<Item>();
@@ -50,13 +50,13 @@ public class TextAdventureFramework : MonoBehaviour {
     private bool started = false;
     
     void Awake() {
-	if (startingRoom < 0 || startingRow < 0)
+	if (startingColumn < 0 || startingRow < 0)
 	    throw new FrameworkError("Negative Rooms don't exist!");
-	else if (rooms.Length <= startingRoom ||
-		 rooms[startingRoom].row.Length <= startingRow)
+	else if (columns.Length <= startingColumn ||
+		 columns[startingColumn].row.Length <= startingRow)
 	    throw new FrameworkError("That room doesn't exist!");
 	else {
-	    y = startingRoom;
+	    y = startingColumn;
 	    x = startingRow;
 	}
 	    
@@ -71,7 +71,7 @@ public class TextAdventureFramework : MonoBehaviour {
     }
 
     public void ProcessInput(string input) {
-	input = input.ToLower();
+	input = input.ToLower().Trim();
 	    
 	LogString(input);
 	
@@ -103,7 +103,7 @@ public class TextAdventureFramework : MonoBehaviour {
     }
 
     private void PrintRoom(bool printLong = false) {
-	Room cur = rooms[y].row[x];
+	Room cur = columns[y].row[x];
 	string output;
 	
 	if (printLong)
@@ -154,9 +154,9 @@ public class TextAdventureFramework : MonoBehaviour {
 
     private void UseHelper(TextEvent r) {
 	if (r.effectOtherRoom)
-	    rooms[r.roomCoords[0]]
-		.row[r.roomCoords[1]]
-		.processEvent(r);
+	    columns[r.roomCoords[0]]
+		  .row[r.roomCoords[1]]
+		  .processEvent(r);
 	if (!string.IsNullOrEmpty(r.getReaction()))
 	    LogString("\n" + r.getReaction());
     }
@@ -178,7 +178,7 @@ public class TextAdventureFramework : MonoBehaviour {
 								 inputActionData[0],
 								 true);
 		
-		if (rooms[y].row[x].validDirection(dir)) {
+		if (columns[y].row[x].validDirection(dir)) {
 		    switch (dir) {
 			case Room.Direction.NORTH:
 			    y += 1;
@@ -195,7 +195,7 @@ public class TextAdventureFramework : MonoBehaviour {
 		    }
 		    
 		    PrintRoom();
-		} else if (rooms[y].row[x].isLockedDirection(dir))
+		} else if (columns[y].row[x].isLockedDirection(dir))
 		    LogString("\nThat way is locked");
 		else
 		    LogString("\nYou can't walk through walls");
@@ -209,7 +209,7 @@ public class TextAdventureFramework : MonoBehaviour {
 
     private void take() {
 	if (inputActionData.Length > 0) {
-	    Room cur = rooms[y].row[x];
+	    Room cur = columns[y].row[x];
 	    string item = inputActionData[0];
 	    int itemIndex = cur.itemInRoom(item);
 	    
@@ -218,7 +218,7 @@ public class TextAdventureFramework : MonoBehaviour {
 		backpack.Add(cur.items[itemIndex]);
 		cur.items = cur.items.Where((source, index) => index != itemIndex).ToArray();
 		LogString("\nPicked up " + item);
-		rooms[y].row[x] = cur;
+	        columns[y].row[x] = cur;
 	    } else
 		LogString("\nthere is no " + item + " in here");
 	} else
@@ -260,7 +260,7 @@ public class TextAdventureFramework : MonoBehaviour {
 	    string item = inputActionData[0];
 
 	    if (InInventory(item)) {
-		Room cur = rooms[y].row[x];
+		Room cur = columns[y].row[x];
 		
 		TextEvent[] reactions = cur.processAction(item);
 		
