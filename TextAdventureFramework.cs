@@ -30,8 +30,8 @@ public class TextAdventureFramework : MonoBehaviour {
     private static bool GAME_OVER = false;
 
     public InputField inputField;
-
-    public Text textArea;
+    public Text outputArea;
+    
     [TextArea] [SerializeField] private string start;
     public int startingColumn = 0;
     public int startingRow = 0;
@@ -63,11 +63,11 @@ public class TextAdventureFramework : MonoBehaviour {
 	
 	inputField.ActivateInputField();
 	
-	textArea.text = start + "\n";
+        outputArea.text = start + "\n";
     }
 
     private void LogString(string str) {
-	textArea.text += str + "\n";
+        outputArea.text += str + "\n";
     }
 
     public void ProcessInput(string input) {
@@ -305,7 +305,7 @@ public class TextAdventureFramework : MonoBehaviour {
     }
 
     private void clear() {
-	textArea.text = "";
+        outputArea.text = "";
 	PrintRoom();
     }
 
