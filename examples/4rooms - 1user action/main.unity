@@ -382,36 +382,32 @@ MonoBehaviour:
     Enter ''play'' to start!'
   startingColumn: 0
   startingRow: 0
-  actions:
-  - go
-  - take
-  - use
-  - quit
-  - help
-  - play
   actionNotFoundMessage: I didn't recognize that! Try typing 'help'
   columns:
   - row:
-    - connections: 
+    - connections: 0000000002000000
       lockedConnections: 
-      items: []
+      items:
+      - name: test
+        description: hey! :3
+        special: 
       events: []
       shortDescription: 
       longDescription: 
-    - connections: 
+    - connections: 0000000003000000
       lockedConnections: 
       items: []
       events: []
       shortDescription: 
       longDescription: 
   - row:
-    - connections: 
+    - connections: 0100000002000000
       lockedConnections: 
       items: []
       events: []
       shortDescription: 
       longDescription: 
-    - connections: 
+    - connections: 0100000003000000
       lockedConnections: 
       items: []
       events: []
